@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp1.Classes;
+using Microsoft.Win32;
+using System.Threading;
 
 namespace WpfApp1
 {
@@ -28,6 +30,8 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
+            SaveProgramProperties();
+            LoadProgramProperties();
             bankAccount = new BankAccount(50);
             this.DataContext = bankAccount;
             bankAccount.NotifyEvent += new BankAccount.AccountHandler(DisplayMessage);
@@ -50,6 +54,49 @@ namespace WpfApp1
         private void DisplayMessage(object sender, CustomEvent e)
         {
             MessageBox.Show(e.message + e.sum);
+        }
+
+        private void SaveProgramProperties()
+        {
+            RegistryKey registryKey = Registry.CurrentUser;
+
+            registryKey.CreateSubKey("Software");
+            registryKey.CreateSubKey("BankAppExample");
+
+            registryKey.SetValue("WinState", (int)WindowState);
+
+            if(WindowState == WindowState.Normal)
+            {
+                registryKey.SetValue("width", Width);
+                registryKey.SetValue("height", Height);
+                registryKey.SetValue("left", Left);
+                registryKey.SetValue("top", Top);
+            }
+        }
+
+        private void LoadProgramProperties()
+        {
+            RegistryKey registryKey = Registry.CurrentUser;
+
+            registryKey.CreateSubKey("Software");
+            registryKey.CreateSubKey("BankAppExample");
+
+            Width = Convert.ToDouble(registryKey.GetValue("width", Width));
+            Height = Convert.ToDouble(registryKey.GetValue("height", Height));
+            Left = Convert.ToDouble(registryKey.GetValue("left", Left));
+            Top = Convert.ToDouble(registryKey.GetValue("top", Top));
+
+            WindowState = (WindowState)registryKey.GetValue("WinState", WindowState.Normal);
+
+            /*new Thread(() => {
+                Thread.CurrentThread.IsBackground = true;
+
+                string[] options = registryKey.GetValueNames();
+                foreach (var i in options)
+                    tx_registry_options.Text = i;
+            }).Start();*/
+
+            registryKey.Close();
         }
     }
 }

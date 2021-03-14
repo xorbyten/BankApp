@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         ResizeMode="NoResize"
+        WindowStartupLocation="Manual"
         Title="BankApp" Height="450" Width="800">
     
     <Grid>
@@ -26,6 +27,7 @@
         <TextBox Name="tx_add" Text="Сколько вы хотите добавить?" FontSize="30" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         <Button Name="btn_add" Click="btn_add_Click" FontSize="20" Content="Добавить денег" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" Width="300" Height="35"/>
         <Button Name="btn_del" Click="btn_del_Click" FontSize="20" Content="Отнять денег" VerticalAlignment="Bottom" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" Width="300" Height="35"/>
+        <TextBox Name="tx_registry_options" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="500" Height="88" TextWrapping="WrapWithOverflow" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
     </Grid>
     
 </Window>
